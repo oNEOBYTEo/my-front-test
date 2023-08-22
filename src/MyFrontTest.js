@@ -102,6 +102,12 @@ export class MyFrontTest extends LitElement {
   uploadAccionist(data) {
     data = data.filter(item => this.userInputValue === item.NIT && Number(item.Porcentaje.slice(0, item.Porcentaje.length - 1)) > 5 && this._setCompany(item))
 
+
+    console.log(data.length)
+    if(data.length === 0){
+      this.company = {}
+    }
+
     this.payload = data
   }
 
