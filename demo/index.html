@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>my-front-test demo</title>
+    <script src="../build/webcomponents-loader.js"></script>
+    <script src="../build/scoping-ambients-shim.min.js"></script>
+    <script src="../build/custom-style-interface.min.js"></script>
+    <script>
+      {
+        const _customElementsDefine = window.customElements.define;
+        window.customElements.define = (name, cl, conf) => {
+          if (customElements.get(name)) {
+            console.warn(`${name} has been defined twice`);
+          } else {
+            _customElementsDefine.call(window.customElements, name, cl, conf);
+          }
+        };
+      }
+    </script>
+    <script defer src="../build/component.js"></script>
+    <script type="module" crossorigin="use-credentials">
+      import '../build/demo-build.js';
+    </script>
+  </head>
+
+  <body>
+    <bbva-core-demo-helper>
+      <bbva-core-demo-case heading="Basic" description="Default specs">
+        <template>
+          <my-front-test></my-front-test>
+          <script>
+            const el = document.querySelector('my-front-test');
+            const result = document.querySelector('.result');
+            el.addEventListener('my-custom-element-submit', (e) => {
+              setTimeout(() => {
+                el.loading = false;
+                console.log(e.detail);
+                fetch('accionistas.json')
+                .then(response => response.json()) 
+                .then(({accionistas}) => {
+                  console.log(accionistas)
+                  el.uploadAccionist(accionistas)
+                  
+                })
+                .catch(error => {
+                  console.error('Error al cargar el archivo JSON:', error);
+                });
+              
+              }, 2000);
+             
+            });
+            
+          </script>
+        </template>
+      </bbva-core-demo-case>
+    </bbva-core-demo-helper>
+  </body>
+</html>

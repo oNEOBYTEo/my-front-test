@@ -1,0 +1,1 @@
+export { MyFrontTest } from './src/MyFrontTest.js';
